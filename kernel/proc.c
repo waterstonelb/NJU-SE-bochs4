@@ -38,12 +38,14 @@
 // }
 PUBLIC void schedule()
 {
+	
 	PROCESS* p;
 	for(p = proc_table; p < proc_table+NR_TASKS; p++){
 		if (p->ticks > 0) {
 			p->ticks--;
 		}		
 	}	
+
 	next();
 	
 }
@@ -58,18 +60,19 @@ PUBLIC int sys_get_ticks()
 PUBLIC void sys_dispstr(char* str){
 	disp_str(str);
 	if(disp_pos > 80*24*2){
+		milli_delay(2000000);
 		clear();
 	}
 }
 PUBLIC void sys_color_dispstr(char* str,int color){
 	disp_color_str(str,color);
 }
-PUBLIC void sys_delay(int milli_sec)
-{	
-	// 当前进程ticks提高
-	p_proc_ready->ticks = milli_sec*HZ/1000;
-	//找到下一个ticks为0，且不被阻止的进程
-	next();	
+PUBLIC  void   sys_sleep(int milli_sec)
+{
+	
+	p_proc_ready->ticks = milli_sec * HZ / 1000;
+	
+	//schedule();
 }
 PUBLIC void	sys_P(SEMAPHORE* sem,int index){
 	sem->value--;
@@ -82,27 +85,29 @@ PUBLIC void	sys_P(SEMAPHORE* sem,int index){
 }
 PUBLIC void sys_V(SEMAPHORE* sem){
 	sem->value++;
-	disp_str("V operation\n");
+	//disp_str("V operation\n");
 	if(sem->value<=0){
 		int index = sem->queue[sem->out];
 		wakeup(index);
 		sem->out = (sem->out+1)%QUEUE_SIZE;	
 	}
 }
-void next(){
-	//找到下一个ticks为0的进程
-	while(1){
-		p_proc_ready++;
-		
-		if(p_proc_ready >= proc_table+NR_TASKS){
-			p_proc_ready = 	proc_table;
-		}
 
-		if(p_proc_ready->ticks<=0&&p_proc_ready->block!=1){
-			break;	
-		}	
-		
+void next()
+{
+	
+	while (1)
+	{
+		p_proc_ready++;
+
+		if (p_proc_ready >= proc_table + NR_TASKS)
+			p_proc_ready = proc_table;
+
+		if (p_proc_ready->ticks <= 0 && p_proc_ready->block != 1){
+				disp_str(p_proc_ready->p_name);
 			
+			break;
+		}
 	}
 }
 

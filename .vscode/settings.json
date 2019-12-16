@@ -15,6 +15,10 @@
         "protect.h": "c",
         "const.h": "c",
         "string.h": "c",
-        "proto.h": "c"
+        "proto.h": "c",
+        "iosfwd": "c",
+        "istream": "c",
+        "streambuf": "c",
+        "condition_variable": "c"
     }
 }

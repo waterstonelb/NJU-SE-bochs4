@@ -10,7 +10,7 @@
 _NR_get_ticks       equ 0 ; 要跟 global.c 中 sys_call_table 的定义相对应！
 _NR_dispstr			equ 1
 _NR_color_dispstr	equ 2
-_NR_delay			equ 3
+_NR_sleep			equ 3
 _NR_P 				equ 4
 _NR_V				equ 5
 INT_VECTOR_SYS_CALL equ 0x90
@@ -19,9 +19,10 @@ INT_VECTOR_SYS_CALL equ 0x90
 global	get_ticks
 global  dispstr
 global  color_dispstr
+global  sleep
 global  P 
 global  V 
-global  my_delay
+
 
 
 bits 32
@@ -41,11 +42,12 @@ dispstr:
 	ret
 color_dispstr:
 	mov eax, _NR_color_dispstr
+	mov ecx, [esp+8]
 	mov	ebx, [esp+4]
 	int INT_VECTOR_SYS_CALL
 	ret
-my_delay:
-	mov	eax, _NR_delay
+sleep:
+	mov	eax, _NR_sleep
 	mov ebx, [esp+4]
 	int INT_VECTOR_SYS_CALL
 	ret

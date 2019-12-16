@@ -66,6 +66,12 @@
 
 /* Labs required parameter*/
 #define QUEUE_SIZE  6
+#define MAX_READER1 1
+#define MAX_READER2 2
+#define MAX_READER3 3
+
+#define WRITER_FIRST 0
+
 //color
 #define BLACK   0x0     /* 0000 */
 #define WHITE   0x7     /* 0111 */
@@ -74,5 +80,6 @@
 #define BLUE    0x1     /* 0001 */
 #define FLASH   0x80    /* 1000 0000 */
 #define BRIGHT  0x08    /* 0000 1000 */
+#define MAKE_COLOR(x,y) (x | y) /* MAKE_COLOR(Background,Foreground) */
 
 #endif /* _ORANGES_CONST_H_ */

@@ -28,5 +28,5 @@ PUBLIC	TASK	task_table[NR_TASKS] = {{ReaderA, STACK_SIZE_READERA, "ReaderA"},
 
 PUBLIC	irq_handler		irq_table[NR_IRQ];
 
-PUBLIC	system_call		sys_call_table[NR_SYS_CALL] = {sys_get_ticks,sys_dispstr,sys_color_dispstr,sys_delay,sys_P,sys_V};
+PUBLIC	system_call		sys_call_table[NR_SYS_CALL] = {sys_get_ticks,sys_dispstr,sys_color_dispstr,sys_sleep,sys_P,sys_V};
 

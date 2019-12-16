@@ -51,7 +51,7 @@ typedef struct s_sem{
 PUBLIC  int     sys_get_ticks();        /* sys_call */
 PUBLIC  void    sys_dispstr(char*);
 PUBLIC  void    sys_color_dispstr(char*,int);
-PUBLIC  void    sys_delay(int);
+PUBLIC  void    sys_sleep(int);
 PUBLIC  void    sys_P(SEMAPHORE*,int);
 PUBLIC  void    sys_V(SEMAPHORE*);
 
@@ -60,6 +60,6 @@ PUBLIC  void    sys_call();             /* int_handler */
 PUBLIC  int     get_ticks();
 PUBLIC  void    dispstr(char*);
 PUBLIC  void    color_dispstr(char*,int);
-PUBLIC  void    my_delay(int);
+PUBLIC  void    sleep(int);
 PUBLIC  void    P(SEMAPHORE*,int);
 PUBLIC  void    V(SEMAPHORE*);
