@@ -298,7 +298,7 @@ void NormalF()
 {
 	while (1)
 	{
-		
+		disp_color_str("START",RED);
 		char t[20] = {0};
 		if (pid < 3)
 		{
@@ -310,31 +310,11 @@ void NormalF()
 		{
 			strcpy(t, "WRITING\n");
 		}
-		disp_color_str("START",RED);
+		
 		dispstr(t);
 		
 
-		//sleep(1*1000/HZ);
-		p_proc_ready->ticks = 1 * 1000 / HZ * HZ / 1000;
-		int ccc=0;
-		while (1)
-		{
-			p_proc_ready++;
-			
-			if (p_proc_ready >= proc_table + NR_TASKS)
-				p_proc_ready = proc_table;
-
-			if (p_proc_ready->ticks <= 0 && p_proc_ready->block != 1)
-			{
-				ccc++;
-				char t[]=" ";
-				t[0]=ccc+48;
-				t[1]='\0';
-				disp_color_str(t,RED);
-				break;
-			}
-		}
-		disp_str("END");
+		sleep(1*1000/HZ);
 	}
 }
 PRIVATE void clear()

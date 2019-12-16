@@ -45,7 +45,7 @@ PUBLIC void schedule()
 			p->ticks--;
 		}		
 	}	
-
+	dispstr(p_proc_ready->p_name);
 	next();
 	
 }
@@ -72,7 +72,7 @@ PUBLIC  void   sys_sleep(int milli_sec)
 	
 	p_proc_ready->ticks = milli_sec * HZ / 1000;
 	
-	//schedule();
+	next();
 }
 PUBLIC void	sys_P(SEMAPHORE* sem,int index){
 	sem->value--;
@@ -104,7 +104,7 @@ void next()
 			p_proc_ready = proc_table;
 
 		if (p_proc_ready->ticks <= 0 && p_proc_ready->block != 1){
-				disp_str(p_proc_ready->p_name);
+				//disp_str(p_proc_ready->p_name);
 			
 			break;
 		}
