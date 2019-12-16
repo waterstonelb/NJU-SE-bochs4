@@ -36,6 +36,7 @@ typedef struct s_proc {
 
         int ticks;                 /* remained ticks */
         int priority;
+		int block;
 
 	u32 pid;                   /* process id passed in from MM */
 	char p_name[16];           /* name of the process */
@@ -49,14 +50,21 @@ typedef struct s_task {
 
 
 /* Number of tasks */
-#define NR_TASKS	3
+#define NR_TASKS	6
 
 /* stacks of tasks */
-#define STACK_SIZE_TESTA	0x8000
-#define STACK_SIZE_TESTB	0x8000
-#define STACK_SIZE_TESTC	0x8000
+#define STACK_SIZE_READERA	0x8000
+#define STACK_SIZE_READERB	0x8000
+#define STACK_SIZE_READERC	0x8000
+#define STACK_SIZE_WRITERD	0x8000
+#define STACK_SIZE_WRITERE	0x8000
+#define STACK_SIZE_NORMALF	0x8000                                                                            
 
-#define STACK_SIZE_TOTAL	(STACK_SIZE_TESTA + \
-				STACK_SIZE_TESTB + \
-				STACK_SIZE_TESTC)
+
+#define STACK_SIZE_TOTAL	(STACK_SIZE_READERA + \
+				STACK_SIZE_READERB + \
+				STACK_SIZE_READERC + \
+				STACK_SIZE_WRITERD + \
+				STACK_SIZE_WRITERE + \
+				STACK_SIZE_NORMALF)
 

@@ -62,6 +62,17 @@
 #define	AT_WINI_IRQ	14	/* at winchester */
 
 /* system call */
-#define NR_SYS_CALL     1
+#define NR_SYS_CALL     6
+
+/* Labs required parameter*/
+#define QUEUE_SIZE  6
+//color
+#define BLACK   0x0     /* 0000 */
+#define WHITE   0x7     /* 0111 */
+#define RED     0x4     /* 0100 */
+#define GREEN   0x2     /* 0010 */
+#define BLUE    0x1     /* 0001 */
+#define FLASH   0x80    /* 1000 0000 */
+#define BRIGHT  0x08    /* 0000 1000 */
 
 #endif /* _ORANGES_CONST_H_ */

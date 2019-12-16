@@ -340,10 +340,12 @@ save:
 ; ====================================================================================
 sys_call:
         call    save
-
+		push 	dword [p_proc_ready]
         sti
-
+		push	ecx							;第二个参数
+		push 	ebx							;第一个参数
         call    [sys_call_table + eax * 4]
+		add 	esp, 4*3
         mov     [esi + EAXREG - P_STACKBASE], eax
 
         cli

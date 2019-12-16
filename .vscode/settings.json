@@ -1,0 +1,20 @@
+{
+    "files.associations": {
+        "atomic": "c",
+        "*.tcc": "c",
+        "deque": "c",
+        "list": "c",
+        "string": "c",
+        "unordered_map": "c",
+        "unordered_set": "c",
+        "vector": "c",
+        "fstream": "c",
+        "limits": "c",
+        "sstream": "c",
+        "system_error": "c",
+        "protect.h": "c",
+        "const.h": "c",
+        "string.h": "c",
+        "proto.h": "c"
+    }
+}

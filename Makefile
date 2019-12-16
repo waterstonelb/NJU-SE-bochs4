@@ -108,3 +108,5 @@ lib/kliba.o : lib/kliba.asm
 
 lib/string.o : lib/string.asm
 	$(ASM) $(ASMKFLAGS) -o $@ $<
+run: image
+	bochs -f bochsrc -q -rc skip

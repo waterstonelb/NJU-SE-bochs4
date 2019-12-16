@@ -14,6 +14,11 @@
 #include "global.h"
 
 
+PRIVATE void clear();
+// PRIVATE void start(int index, int is_read);
+// PRIVATE void end(int index, int is_read);
+// PRIVATE void print_current();
+
 /*======================================================================*
                             kernel_main
  *======================================================================*/
@@ -54,17 +59,40 @@ PUBLIC int kernel_main()
 		p_proc->regs.eip = (u32)p_task->initial_eip;
 		p_proc->regs.esp = (u32)p_task_stack;
 		p_proc->regs.eflags = 0x1202; /* IF=1, IOPL=1 */
-
+		p_proc->ticks=p_proc->block=0;
+		//proc_table[i].ticks = proc_table[i].block = 15;
 		p_task_stack -= p_task->stacksize;
 		p_proc++;
 		p_task++;
 		selector_ldt += 1 << 3;
 	}
 
-	proc_table[0].ticks = proc_table[0].priority = 15;
-	proc_table[1].ticks = proc_table[1].priority =  5;
-	proc_table[2].ticks = proc_table[2].priority =  3;
-
+	//proc_table[0].ticks = proc_table[0].block = 15;
+	// proc_table[1].ticks = proc_table[1].block =  5;
+	// proc_table[2].ticks = proc_table[2].priority =  3;
+	//实验初始化开始
+	proc_table[0].ticks = proc_table[0].block = 0;
+	proc_table[1].ticks = proc_table[1].block = 0;
+	proc_table[2].ticks = proc_table[2].block = 0;
+	proc_table[3].ticks = proc_table[3].block = 0;
+	proc_table[4].ticks = proc_table[4].block = 0;
+	proc_table[5].ticks = proc_table[5].block = 0;
+	clear();
+	disp_pos = 0;
+	for(i=0;i<80*25;i++){
+		disp_str(" ");	
+	}
+	disp_pos = 0;
+	readers.in=0;
+	readers.out=0;
+	readers.value=1;
+	writer.in=0;
+	writer.out=0;
+	writer.value=1;
+	mutex.in=0;
+	mutex.out=0;
+	mutex.value=1;
+	//实验初始化结束
 	k_reenter = 0;
 	ticks = 0;
 
@@ -86,35 +114,85 @@ PUBLIC int kernel_main()
 /*======================================================================*
                                TestA
  *======================================================================*/
-void TestA()
+void ReaderA()
 {
-	int i = 0;
 	while (1) {
-		disp_str("A.");
-		milli_delay(10);
+		P(&readers,0);
+		P(&writer,0);
+		char a[] = "Reader A START\n";
+		dispstr(a);
+		//V(&readers);
+		milli_delay(20*HZ/1000);
+		char b[] = "Reader A END\n";
+		color_dispstr(b,BLUE);
+		char c={'\0','\0'};
+
+		V(&writer);
+		V(&readers);
 	}
 }
 
 /*======================================================================*
                                TestB
  *======================================================================*/
-void TestB()
+void ReaderB()
 {
-	int i = 0x1000;
-	while(1){
-		disp_str("B.");
-		milli_delay(10);
+	while (1) {
+		P(&readers,1);
+		char a[] = "Reader B START\n";
+		dispstr(a);
+		milli_delay(30*HZ/1000);
+
+		V(&readers);
 	}
 }
 
 /*======================================================================*
                                TestB
  *======================================================================*/
-void TestC()
+void ReaderC()
 {
-	int i = 0x2000;
-	while(1){
-		disp_str("C.");
-		milli_delay(10);
+	while (1) {
+		P(&readers,2);
+		char a[] = "Reader C START\n";
+		color_dispstr(a,RED);
+		milli_delay(30*HZ/1000);
+		V(&readers);
+
 	}
+}
+void WriterD(){
+	while (1) {
+		P(&writer,3);
+		char a[] = "Writer D START\n";
+		color_dispstr(a,GREEN);
+		milli_delay(30*HZ/1000);
+		V(&writer);
+	}
+}
+void WriterE(){
+	while (1) {
+		P(&writer,4);
+		char a[] = "Writer E START\n";
+		color_dispstr(a,GREEN);
+		milli_delay(40*HZ/1000);
+		V(&writer);
+		
+	}
+}
+void NormalF(){
+	while (1) {
+		char a[]="ffffffff\n";
+		dispstr(a);
+		milli_delay(300);
+	}
+}
+PRIVATE void clear()
+{
+	disp_pos = 0;
+        
+        for(int i = 0; i < 80 * 25; i++)
+                disp_str(" ");
+        
+        disp_pos = 0;
 }
