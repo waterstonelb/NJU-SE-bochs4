@@ -298,22 +298,17 @@ void NormalF()
 {
 	while (1)
 	{
-		disp_color_str("START",RED);
-		char t[20] = {0};
-		if (pid < 3)
-		{
-			strcpy(t, "READING ");
-			t[8] = num_reader + 48;
-			t[9] = '\n';
+		char writer[]="WRITING\n";
+		char reader[40]="READING the number of reader is ";
+		if(pid<3){
+			char c=num_reader+48;
+			char cc=20;
+			strcpy(reader+32,&c);
+			strcpy(reader+33,&cc);
+			dispstr(reader);
+		}else{
+			dispstr(writer);
 		}
-		else
-		{
-			strcpy(t, "WRITING\n");
-		}
-		
-		dispstr(t);
-		
-
 		sleep(1*1000/HZ);
 	}
 }

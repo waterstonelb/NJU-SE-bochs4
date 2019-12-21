@@ -45,7 +45,7 @@ PUBLIC void schedule()
 			p->ticks--;
 		}		
 	}	
-	dispstr(p_proc_ready->p_name);
+	//dispstr(p_proc_ready->p_name);
 	next();
 	
 }
@@ -71,7 +71,6 @@ PUBLIC  void   sys_sleep(int milli_sec)
 {
 	
 	p_proc_ready->ticks = milli_sec * HZ / 1000;
-	
 	next();
 }
 PUBLIC void	sys_P(SEMAPHORE* sem,int index){
