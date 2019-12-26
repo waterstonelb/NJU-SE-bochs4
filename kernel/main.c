@@ -89,7 +89,7 @@ PUBLIC int kernel_main()
 	wmutex.value = 1;
 	read_max.in = 0;
 	read_max.out = 0;
-	read_max.value = MAX_READER3;
+	read_max.value = MAX_READER2;
 	Hungry.in = 0;
 	Hungry.out = 0;
 	Hungry.value = 1;
@@ -372,7 +372,7 @@ void NormalF()
 		{
 			dispstr(writer);
 		}
-		sleep(1 * 1000 / HZ);
+		milli_delay( 1000 * 1000 / HZ);
 	}
 }
 PRIVATE void clear()
@@ -409,11 +409,11 @@ PRIVATE void read(char c)
 	if (c == 'A')
 	{
 		
-		milli_delay(2 * 1000 / HZ);
+		milli_delay(2000 * 1000 / HZ);
 	}
 	else
 	{
-		milli_delay(3 * 1000 / HZ);
+		milli_delay(3000 * 1000 / HZ);
 	}
 }
 PRIVATE void write(char c)
@@ -424,10 +424,10 @@ PRIVATE void write(char c)
 	color_dispstr(t, BLUE);
 	if (c == 'D')
 	{
-		milli_delay(3 * 1000 / HZ);
+		milli_delay(3000 * 1000 / HZ);
 	}
 	else
 	{
-		milli_delay(4 * 1000 / HZ);
+		milli_delay(4000 * 1000 / HZ);
 	}
 }

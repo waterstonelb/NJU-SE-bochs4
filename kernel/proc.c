@@ -12,7 +12,10 @@
 #include "string.h"
 #include "proc.h"
 #include "global.h"
-
+void next();
+void clear();
+void wakeup(int);
+void block();
 /*======================================================================*
                               schedule
  *======================================================================*/
@@ -45,7 +48,7 @@ PUBLIC void schedule()
 			p->ticks--;
 		}		
 	}	
-	//dispstr(p_proc_ready->p_name);
+
 	next();
 	
 }
@@ -60,18 +63,23 @@ PUBLIC int sys_get_ticks()
 PUBLIC void sys_dispstr(char* str){
 	disp_str(str);
 	if(disp_pos > 80*24*2){
-		milli_delay(200000);
+		milli_delay(2000000);
 		clear();
 	}
 }
 PUBLIC void sys_color_dispstr(char* str,int color){
 	disp_color_str(str,color);
+	if(disp_pos > 80*24*2){
+		milli_delay(2000000);
+		clear();
+	}
 }
 PUBLIC  void   sys_sleep(int milli_sec)
 {
 	
 	p_proc_ready->ticks = milli_sec * HZ / 1000;
 	next();
+	//schedule();
 }
 PUBLIC void	sys_P(SEMAPHORE* sem,int index){
 	sem->value--;
