@@ -122,35 +122,45 @@ void ReaderA()
 	int i = 0;
 	while (1)
 	{
-		start(i);
 		P(&read_max, i);
-		P(&Hungry, i);
-
-		if (WRITER_FIRST)
-			P(&readers, i);
-
-		P(&mutex, i);
-		if (num_reader == 0)
+		if(HUNGRY==1)
+			P(&Hungry, i);
+		start(i);
+		
+		if (WRITER_FIRST==1)
 		{
-			P(&writer, i);
+			P(&readers, i);
+		}
+		P(&mutex, i);
+		if(WRITER_FIRST==0)
+		{
+			
+			if (num_reader == 0)
+			{
+				P(&writer, i);
+			}
 		}
 		num_reader++;
 		V(&mutex);
-
 		if (WRITER_FIRST)
 			V(&readers);
-		V(&Hungry);
-
+		
+		if(HUNGRY==1)
+		    V(&Hungry);
+		
 		pid = i;
 		read('A' + i);
 
 		end(i);
 		P(&mutex, i);
-
 		num_reader--;
-		if (num_reader == 0)
+		if(WRITER_FIRST==0)
 		{
-			V(&writer);
+			
+			if (num_reader == 0)
+			{
+				V(&writer);
+			}
 		}
 		V(&mutex);
 		V(&read_max);
@@ -165,36 +175,46 @@ void ReaderB()
 	int i = 1;
 	while (1)
 	{
-
-		start(i);
+		
 		P(&read_max, i);
-		P(&Hungry, i);
-
-		if (WRITER_FIRST)
-			P(&readers, i);
-
-		P(&mutex, i);
-		if (num_reader == 0)
+		if(HUNGRY==1)
+			P(&Hungry, i);
+		start(i);
+		
+		if (WRITER_FIRST==1)
 		{
-			P(&writer, i);
+			P(&readers, i);
+		}
+		P(&mutex, i);
+		if(WRITER_FIRST==0)
+		{
+			
+			if (num_reader == 0)
+			{
+				P(&writer, i);
+			}
 		}
 		num_reader++;
 		V(&mutex);
-
 		if (WRITER_FIRST)
 			V(&readers);
-		V(&Hungry);
-
+		
+		if(HUNGRY==1)
+		    V(&Hungry);
+		
 		pid = i;
 		read('A' + i);
 
 		end(i);
 		P(&mutex, i);
-
 		num_reader--;
-		if (num_reader == 0)
+		if(WRITER_FIRST==0)
 		{
-			V(&writer);
+			
+			if (num_reader == 0)
+			{
+				V(&writer);
+			}
 		}
 		V(&mutex);
 		V(&read_max);
@@ -209,36 +229,44 @@ void ReaderC()
 	int i = 2;
 	while (1)
 	{
-
-		start(i);
 		P(&read_max, i);
-		P(&Hungry, i);
-
-		if (WRITER_FIRST)
-			P(&readers, i);
-
-		P(&mutex, i);
-		if (num_reader == 0)
+		if(HUNGRY==1)
+			P(&Hungry, i);
+		start(i);
+		
+		if (WRITER_FIRST==1)
 		{
-			P(&writer, i);
+			P(&readers, i);
+		}
+		P(&mutex, i);
+		if(WRITER_FIRST==0)
+		{
+			
+			if (num_reader == 0)
+			{
+				P(&writer, i);
+			}
 		}
 		num_reader++;
 		V(&mutex);
-
 		if (WRITER_FIRST)
 			V(&readers);
-		V(&Hungry);
-
+		
+		if(HUNGRY==1)
+		    V(&Hungry);
+		
 		pid = i;
 		read('A' + i);
 
 		end(i);
 		P(&mutex, i);
-
 		num_reader--;
-		if (num_reader == 0)
+		if(WRITER_FIRST==0)
 		{
-			V(&writer);
+			if (num_reader == 0)
+			{
+				V(&writer);
+			}
 		}
 		V(&mutex);
 		V(&read_max);
@@ -250,23 +278,39 @@ void WriterD()
 	while (1)
 	{
 		start(i);
-		P(&Hungry, i);
-		if (WRITER_FIRST)
+		if(HUNGRY==1)
+		    P(&Hungry, i);
+		
+		if (WRITER_FIRST==1)
 		{
-			P(&readers, i); //阻止读者进入ready态
+			P(&wmutex,i);
+			num_writer++;
+			if (num_writer == 1)
+			{
+				P(&readers,i);
+			}
+			V(&wmutex);
 		}
 		
 		P(&writer, i);
+		
 		pid = i;
 		write('A' + i);
 		end(i);
+		
 		V(&writer);
-
+		
 		if (WRITER_FIRST)
 		{
-			V(&readers);
+			P(&wmutex,i);
+			num_writer--;
+			if(num_writer==0)
+				V(&readers);
+			V(&wmutex);
 		}
-		V(&Hungry);
+		
+		if(HUNGRY==1)
+		    V(&Hungry);
 	}
 }
 void WriterE()
@@ -275,41 +319,60 @@ void WriterE()
 	while (1)
 	{
 		start(i);
-		P(&Hungry, i);
-		if (WRITER_FIRST)
+		if(HUNGRY==1)
+		    P(&Hungry, i);
+		
+		if (WRITER_FIRST==1)
 		{
-			P(&readers, i); //阻止读者进入ready态
+			P(&wmutex,i);
+			num_writer++;
+			if (num_writer == 1)
+			{
+				P(&readers,i);
+			}
+			V(&wmutex);
 		}
 		
 		P(&writer, i);
+		
 		pid = i;
 		write('A' + i);
 		end(i);
+		
 		V(&writer);
-
+		
 		if (WRITER_FIRST)
 		{
-			V(&readers);
+			P(&wmutex,i);
+			num_writer--;
+			if(num_writer==0)
+				V(&readers);
+			V(&wmutex);
 		}
-		V(&Hungry);
+		
+		if(HUNGRY==1)
+		    V(&Hungry);
 	}
 }
 void NormalF()
 {
 	while (1)
 	{
-		char writer[]="WRITING\n";
-		char reader[40]="READING the number of reader is ";
-		if(pid<3){
-			char c=num_reader+48;
-			char cc=20;
-			strcpy(reader+32,&c);
-			strcpy(reader+33,&cc);
+		char writer[] = "WRITING\n";
+		char reader[40] = "READING the number of reader is ";
+		if (pid < 3)
+		{
+			char c = num_reader + 48;
+			char cc = 20;
+			strcpy(reader + 32, &c);
+			strcpy(reader + 33, &cc);
 			dispstr(reader);
-		}else{
+		}
+		else
+		{
 			dispstr(writer);
 		}
-		sleep(1*1000/HZ);
+		sleep(1 * 1000 / HZ);
 	}
 }
 PRIVATE void clear()
@@ -345,6 +408,7 @@ PRIVATE void read(char c)
 	color_dispstr(t, BLUE);
 	if (c == 'A')
 	{
+		
 		milli_delay(2 * 1000 / HZ);
 	}
 	else

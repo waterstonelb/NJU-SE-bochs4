@@ -19,6 +19,9 @@
         "iosfwd": "c",
         "istream": "c",
         "streambuf": "c",
-        "condition_variable": "c"
+        "condition_variable": "c",
+        "functional": "c",
+        "variant": "c",
+        "tuple": "c"
     }
 }

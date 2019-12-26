@@ -70,7 +70,8 @@
 #define MAX_READER2 2
 #define MAX_READER3 3
 
-#define WRITER_FIRST 1
+#define WRITER_FIRST 0
+#define HUNGRY 1
 
 //color
 #define BLACK   0x0     /* 0000 */

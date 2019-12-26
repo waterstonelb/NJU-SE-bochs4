@@ -60,7 +60,7 @@ PUBLIC int sys_get_ticks()
 PUBLIC void sys_dispstr(char* str){
 	disp_str(str);
 	if(disp_pos > 80*24*2){
-		milli_delay(2000000);
+		milli_delay(200000);
 		clear();
 	}
 }
